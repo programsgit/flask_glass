@@ -1,5 +1,9 @@
 Flask
 pandas
 scikit-learn
-matplotlib
+numpy
 seaborn
+matplotlib
+plotly
+openpyxl
+joblib
