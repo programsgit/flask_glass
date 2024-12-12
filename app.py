@@ -4,6 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import sklearn.metrics as mat
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+from sklearn.metrics import roc_curve, auc
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
@@ -53,7 +55,7 @@ def train():
     plt.xticks(rotation=45)
     plt.yticks(rotation=45)
     
-    # Save the figure
+    # Save the confusion matrix figure
     confusion_matrix_path = os.path.join('static', 'confusion_matrix.png')
     plt.savefig(confusion_matrix_path)
     plt.close(fig)
@@ -62,7 +64,32 @@ def train():
     accuracy = accuracy_score(y_test, y_pred)
     accuracy_report = classification_report(y_test, y_pred)
 
-    return render_template('train.html', accuracy=accuracy, confusion_matrix_path=confusion_matrix_path, accuracy_report=accuracy_report)
+    # Calculate ROC curve and AUC
+    y_prob = model.predict_proba(X_test)  # Get predicted probabilities
+    fpr, tpr, thresholds = roc_curve(y_test, y_prob[:, 1], pos_label=1)  # Assuming binary classification for the second class
+    roc_auc = auc(fpr, tpr)
 
+    # Plot ROC curve
+    fig_roc, ax_roc = plt.subplots(figsize=(10, 7))
+    ax_roc.plot(fpr, tpr, color='blue', label='ROC curve (area = %0.2f)' % roc_auc)
+    ax_roc.plot([0, 1], [0, 1], color='red', linestyle='--')  # Diagonal line
+    ax_roc.set_xlabel('False Positive Rate')
+    ax_roc.set_ylabel('True Positive Rate')
+    ax_roc.set_title('Receiver Operating Characteristic (ROC) Curve')
+    ax_roc.legend(loc='lower right')
+
+    # Save the ROC curve figure
+    roc_curve_path = os.path.join('static', 'roc_curve.png')
+    plt.savefig(roc_curve_path)
+    plt.close(fig_roc)
+
+    return render_template('train.html', accuracy=accuracy, confusion_matrix_path=confusion_matrix_path, 
+                           accuracy_report=accuracy_report, roc_curve_path=roc_curve_path, roc_auc=roc_auc)
+
+
+# if __name__ == '__main__':
+#    app.run(debug=True)
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+
