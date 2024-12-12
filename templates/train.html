@@ -12,6 +12,9 @@
     <h3>Confusion Matrix</h3>
     <img src="{{ confusion_matrix_path }}" alt="Confusion Matrix">
     
+    <h3>ROC Curve (AUC = {{ roc_auc | round(2) }})</h3>
+    <img src="{{ roc_curve_path }}" alt="ROC Curve">
+    
     <h3>Classification Report</h3>
     <pre>{{ accuracy_report }}</pre>
     
