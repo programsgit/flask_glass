@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Training Results</title>
+</head>
+<body>
+    <h1>Model Training Results</h1>
+    <h2>Model Accuracy: {{ accuracy * 100 | round(2) }}%</h2>
+    
+    <h3>Confusion Matrix</h3>
+    <img src="{{ confusion_matrix_path }}" alt="Confusion Matrix">
+    
+    <h3>Classification Report</h3>
+    <pre>{{ accuracy_report }}</pre>
+    
+    <a href="/">Back to Home</a>
+</body>
+</html>
