@@ -15,4 +15,35 @@
         <input type="number" step="any" name="Na" required><br>
         
         <label for="Mg">Magnesium (Mg):</label>
-        <input type="number" step="any" name="Mg" required><
+        <input type="number" step="any" name="Mg" required><br>
+        
+        <label for="Al">Aluminum (Al):</label>
+        <input type="number" step="any" name="Al" required><br>
+        
+        <label for="Si">Silicon (Si):</label>
+        <input type="number" step="any" name="Si" required><br>
+        
+        <label for="K">Potassium (K):</label>
+        <input type="number" step="any" name="K" required><br>
+        
+        <label for="Ca">Calcium (Ca):</label>
+        <input type="number" step="any" name="Ca" required><br>
+        
+        <label for="Ba">Barium (Ba):</label>
+        <input type="number" step="any" name="Ba" required><br>
+        
+        <label for="Fe">Iron (Fe):</label>
+        <input type="number" step="any" name="Fe" required><br>
+        
+        <input type="submit" value="Classify">
+    </form>
+
+    {% if prediction is not none %}
+        <h2>Predicted Glass Type:</h2>
+        <p>Type {{ prediction }}: {{ glass_types[prediction] }}</p>
+    {% endif %}
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
+
