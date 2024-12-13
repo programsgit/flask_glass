@@ -86,6 +86,30 @@ def train():
     return render_template('train.html', accuracy=accuracy, confusion_matrix_path=confusion_matrix_path, 
                            accuracy_report=accuracy_report, roc_curve_path=roc_curve_path, roc_auc=roc_auc)
 
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    prediction = None
+    if request.method == 'POST':
+        # Get user input from the form
+        input_data = {
+            'RI': float(request.form['RI']),
+            'Na': float(request.form['Na']),
+            'Mg': float(request.form['Mg']),
+            'Al': float(request.form['Al']),
+            'Si': float(request.form['Si']),
+            'K': float(request.form['K']),
+            'Ca': float(request.form['Ca']),
+            'Ba': float(request.form['Ba']),
+            'Fe': float(request.form['Fe'])
+        }
+        
+        # Convert input data to DataFrame
+        input_df = pd.DataFrame([input_data])
+        
+        # Make prediction
+        prediction = model2.predict(input_df)[0]
+    
+    return render_template('predict.html', prediction=prediction, glass_types=glass_types)
 
 # if __name__ == '__main__':
 #    app.run(debug=True)
