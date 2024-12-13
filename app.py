@@ -29,6 +29,19 @@ model.fit(X_train, y_train)
 # Save the model
 pickle.dump(model, open('glass.pkl', 'wb'))
 
+# Load the model for predictions
+model2 = pickle.load(open('glass.pkl', 'rb'))
+
+# Glass types mapping (defined globally)
+glass_types = {
+    1: "Building Windows (float processed)",
+    2: "Building Windows (non-float processed)",
+    3: "Vehicle Windows (float processed)",
+    4: "Vehicle Windows (non-float processed)",
+    5: "Containers",
+    6: "Tableware",
+    7: "Headlamp"
+}
 @app.route('/')
 def index():
     return render_template('index.html', tables=[df.head().to_html(classes='data')], titles=df.columns.values)
