@@ -48,8 +48,43 @@ def index():
 
 @app.route('/eda')
 def eda():
-    # Generate plots for EDA
-    return render_template('eda.html')
+    # Create histograms for each feature
+    histograms = []
+    for feature in X.columns:
+        fig, ax = plt.subplots()
+        df[feature].hist(ax=ax, bins=30)
+        ax.set_xlabel(feature)
+        ax.set_ylabel('Frequency')
+        ax.set_title(f'Distribution of {feature}')
+        histogram_path = os.path.join('static', f'histogram_{feature}.png')
+        plt.savefig(histogram_path)
+        plt.close(fig)
+        histograms.append(histogram_path)
+
+    # Create box plots for each feature by glass type
+    boxplots = []
+    for feature in X.columns:
+        fig, ax = plt.subplots()
+        sns.boxplot(x='Type', y=feature, data=df, ax=ax, palette='Set2')
+        ax.set_xlabel('Glass Type')
+        ax.set_ylabel(feature)
+        ax.set_title(f'{feature} by Glass Type')
+        boxplot_path = os.path.join('static', f'boxplot_{feature}.png')
+        plt.savefig(boxplot_path)
+        plt.close(fig)
+        boxplots.append(boxplot_path)
+
+    # Create a correlation heatmap
+    fig, ax = plt.subplots(figsize=(10, 8))
+    corr_matrix = df.corr()
+    sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', ax=ax)
+    ax.set_title('Correlation Heatmap')
+    heatmap_path = os.path.join('static', 'correlation_heatmap.png')
+    plt.savefig(heatmap_path)
+    plt.close(fig)
+
+    return render_template('eda.html', histograms=histograms, boxplots=boxplots, heatmap_path=heatmap_path)
+
 
 @app.route('/train')
 def train():
