@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploratory Data Analysis</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>EDA</title>
 </head>
 <body>
     <h1>Exploratory Data Analysis</h1>
-    <!-- Add your EDA visualizations here -->
+
+    <h2>Histograms of Features</h2>
+    <div>
+        {% for histogram in histograms %}
+            <img src="{{ histogram }}" alt="Histogram" style="max-width: 100%; height: auto;">
+        {% endfor %}
+    </div>
+
+    <h2>Box Plots of Features by Glass Type</h2>
+    <div>
+        {% for boxplot in boxplots %}
+            <img src="{{ boxplot }}" alt="Box Plot" style="max-width: 100%; height: auto;">
+        {% endfor %}
+    </div>
+
+    <h2>Correlation Heatmap</h2>
+    <img src="{{ heatmap_path }}" alt="Correlation Heatmap" style="max-width: 100%; height: auto;">
+
     <a href="/">Back to Home</a>
 </body>
 </html>
