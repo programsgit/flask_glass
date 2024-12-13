@@ -44,7 +44,7 @@ glass_types = {
 }
 @app.route('/')
 def index():
-    return render_template('index.html', tables=[df.head().to_html(classes='data')], titles=df.columns.values)
+    return render_template('index.html', tables=[df.head(10).to_html(classes='data')], titles=df.columns.values)
 
 @app.route('/eda')
 def eda():
